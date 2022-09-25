@@ -1,0 +1,4 @@
+.DS_STORE
+.vscode
+data_rabbitmq
+log_rabbitmq
