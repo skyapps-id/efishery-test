@@ -2,10 +2,17 @@ package messaging
 
 import (
 	"iot-service/pkg"
+	"iot-service/repository"
 	"iot-service/service"
+
+	"gorm.io/gorm"
 )
 
-func MessagingConsumer(rabbitMQ pkg.RabbitMQ, feedLogsService service.FeedLogsService) {
+func MessagingConsumer(rabbitMQ pkg.RabbitMQ, db *gorm.DB) {
+	// Load Dependency
+	feedLogsRepository := repository.NewFeedLogsRepository(db)
+	feedLogsService := service.NewFeedLogsService(feedLogsRepository)
+
 	// Messaging Consumer Module
 	barcodes := []string{
 		"00001-AL03005090R-SMIT",

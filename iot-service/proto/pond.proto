@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package pond;
+
+option go_package = "./proto/pond;pond";
+
+message Pond {
+    string uuid = 1;
+    string name = 2;
+}
+
+message PondRequest {
+    string id = 1;
+}
+
+message PondResponse {
+    bool status = 1;
+    string message = 2;
+    optional Pond data = 3;
+
+}
+
+service PondService {
+  rpc Pond(PondRequest) returns (PondResponse) {}
+}
