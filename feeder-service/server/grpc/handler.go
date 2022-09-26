@@ -1,17 +1,20 @@
 package grpc
 
 import (
+	"feeder-service/repository"
 	"feeder-service/server/grpc/pb"
-	"feeder-service/server/grpc/pb/chat"
+	"feeder-service/server/grpc/pb/pond"
+	"feeder-service/service"
 	"fmt"
 	"log"
 	"net"
 	"os"
 
 	"google.golang.org/grpc"
+	"gorm.io/gorm"
 )
 
-func HandlerGrpc() {
+func HandlerGrpc(db *gorm.DB) {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "9001"
@@ -23,7 +26,13 @@ func HandlerGrpc() {
 
 	grpcServer := grpc.NewServer()
 
-	chat.RegisterChatServiceServer(grpcServer, &pb.Server{})
+	// Pond
+	pondRepository := repository.NewPondRepository(db)
+	pondService := service.NewPondService(pondRepository)
+
+	pond.RegisterPondServiceServer(grpcServer, &pb.PondGRPC{
+		Services: pondService,
+	})
 
 	log.Println("Listing for gRPC " + port)
 	if err := grpcServer.Serve(lis); err != nil {

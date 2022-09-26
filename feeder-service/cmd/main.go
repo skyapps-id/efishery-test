@@ -1,11 +1,26 @@
 package main
 
 import (
+	"feeder-service/database"
 	"feeder-service/server/grpc"
 	"feeder-service/server/rest"
 	"log"
 	"sync"
+
+	"gorm.io/gorm"
 )
+
+var (
+	db *gorm.DB
+)
+
+func init() {
+	var err error
+	db, err = database.Database()
+	if err != nil {
+		log.Println(err)
+	}
+}
 
 func main() {
 	// Init Server
@@ -19,7 +34,7 @@ func main() {
 	}()
 	// Run gRPC
 	go func() {
-		grpc.HandlerGrpc()
+		grpc.HandlerGrpc(db)
 		wg.Done()
 	}()
 

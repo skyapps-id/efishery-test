@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "iot-service"
+		},
+		{
+			"path": "feeder-generator"
+		},
+		{
+			"path": "feeder-service"
+		}
+	],
+	"settings": {}
+}
