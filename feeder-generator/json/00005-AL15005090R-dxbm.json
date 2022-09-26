@@ -1,0 +1,25 @@
+{
+    "schedule_uuid": "39b0fa0c-a566-4611-8e56-08ffb7f37f48",
+    "data": [
+        {
+            "timestamp": 1663320245,
+            "output_gr": 2.3
+        },
+        {
+            "timestamp": 1663320255,
+            "output_gr": 2.3
+        },
+        {
+            "timestamp": 1663320265,
+            "output_gr": 5.8
+        },
+        {
+            "timestamp": 1663320275,
+            "output_gr": 5.8
+        },
+        {
+            "timestamp": 1663320285,
+            "output_gr": 0.4
+        }
+    ]
+}

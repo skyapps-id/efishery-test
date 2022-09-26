@@ -2,7 +2,6 @@ package messaging
 
 import (
 	"feeder-generator/pkg"
-	"fmt"
 	"log"
 )
 
@@ -25,7 +24,6 @@ func (m feederMessagingInst) FeederPublish(barcode, payload string) error {
 	if err != nil {
 		return err
 	}
-	log.Printf("Sending message success: %s", payload)
-	fmt.Println("Helo")
+	log.Printf("Sending message success: %s", barcode)
 	return nil
 }

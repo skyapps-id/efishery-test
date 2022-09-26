@@ -2,3 +2,4 @@
 .vscode
 data_rabbitmq
 log_rabbitmq
+mysql*
