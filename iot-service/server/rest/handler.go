@@ -6,10 +6,9 @@ import (
 	"iot-service/repository"
 	"iot-service/server/rest/controller"
 	"iot-service/service"
-	"log"
-	"net/http"
 	"os"
 
+	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
@@ -32,9 +31,9 @@ func HandlerRest(db *gorm.DB) {
 	feedLogsSummaryController := controller.NewFeedLogsSummaryController(feedLogsSummaryService)
 
 	// Routing
-	http.HandleFunc("/", healthCheck.HealthCheck)
-	http.HandleFunc("/feedlogs-summary", feedLogsSummaryController.FeedLogsSummary)
+	e := echo.New()
+	e.GET("/", healthCheck.HealthCheck)
+	e.GET("/feedlogs-summary", feedLogsSummaryController.FeedLogsSummary)
 
-	log.Println("Listing for Rest API " + port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	e.Logger.Fatal(e.Start(":" + port))
 }

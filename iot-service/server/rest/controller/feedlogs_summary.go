@@ -2,9 +2,10 @@ package controller
 
 import (
 	"context"
-	"io"
 	"iot-service/service"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 type (
@@ -16,11 +17,11 @@ type (
 func NewFeedLogsSummaryController(services service.PondFeedersService) *FeedLogsSummaryController {
 	return &FeedLogsSummaryController{services: services}
 }
-func (c *FeedLogsSummaryController) FeedLogsSummary(w http.ResponseWriter, req *http.Request) {
+func (c *FeedLogsSummaryController) FeedLogsSummary(ctx echo.Context) error {
 	data, err := c.services.Fatch(context.Background(), "26f1b9ee-65d9-4c7d-afb1-f7137fefa784")
 	if err != nil {
-		io.WriteString(w, "error!")
-
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	io.WriteString(w, *data)
+
+	return ctx.JSON(http.StatusOK, data)
 }

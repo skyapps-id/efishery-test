@@ -1,8 +1,9 @@
 package controller
 
 import (
-	"io"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 type (
@@ -13,6 +14,6 @@ type (
 func NewHealthCheckController() *HealthCheckController {
 	return &HealthCheckController{}
 }
-func (c *HealthCheckController) HealthCheck(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "ok!")
+func (c *HealthCheckController) HealthCheck(ctx echo.Context) error {
+	return ctx.String(http.StatusOK, "ok!")
 }
