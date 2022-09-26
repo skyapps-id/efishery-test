@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package feeder;
+
+option go_package = "server/grpc/pb/feeder;feeder";
+
+message Feeder {
+    string uuid = 1;
+    string barcode = 2;
+    string name = 3;
+    // google.protobuf.Timestamp created_at = 3;
+    // google.protobuf.Timestamp updated_at = 4;
+}
+message FeederRequestAll {
+}
+
+message FeederRequestById {
+    string id = 1;
+}
+
+message FeederRequestByBarcode {
+    repeated string barcode = 1;
+}
+
+message FeederResponse {
+    bool status = 1;
+    string message = 2;
+    optional Feeder data = 3;
+
+}
+
+message FeederResponses {
+    bool status = 1;
+    string message = 2;
+    repeated Feeder data = 3;
+
+}
+
+service FeederService {
+  rpc FatchFeeders(FeederRequestAll) returns (FeederResponses) {}
+  rpc FindFeederById(FeederRequestById) returns (FeederResponse) {}
+  rpc FindFeederByBarcode(FeederRequestByBarcode) returns (FeederResponses) {}
+}
