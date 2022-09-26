@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package pond_feeders;
+
+option go_package = "server/grpc/pb/pond_feeders;pond_feeders";
+
+message PondFeeder {
+    string pond_uuid = 1;
+    string feeder_uuid = 2;
+    string barcode = 3;
+}
+
+message PondFeedersRequest {
+    string pond_uuid = 1;
+}
+
+message PondFeedersResponse {
+    bool status = 1;
+    string message = 2;
+    repeated PondFeeder data = 3;
+
+}
+
+
+service PondFeedersService {
+  rpc FatchPondFeeders(PondFeedersRequest) returns (PondFeedersResponse) {}
+}

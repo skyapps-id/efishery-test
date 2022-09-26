@@ -5,6 +5,7 @@ import (
 	"feeder-service/server/grpc/pb"
 	"feeder-service/server/grpc/pb/feeder"
 	"feeder-service/server/grpc/pb/pond"
+	"feeder-service/server/grpc/pb/pond_feeders"
 	"feeder-service/service"
 	"fmt"
 	"log"
@@ -39,6 +40,13 @@ func HandlerGrpc(db *gorm.DB) {
 	feederService := service.NewFeederService(feederRepository)
 	feeder.RegisterFeederServiceServer(grpcServer, &pb.FeederGRPC{
 		Services: feederService,
+	})
+
+	// PondFeeders
+	pondfeedersRepository := repository.NewPondFeederRepository(db)
+	pondfeedersService := service.NewPondFeederService(pondfeedersRepository)
+	pond_feeders.RegisterPondFeedersServiceServer(grpcServer, &pb.PondFeedersGRPC{
+		Services: pondfeedersService,
 	})
 
 	log.Println("Listing for gRPC " + port)
