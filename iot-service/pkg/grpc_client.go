@@ -11,8 +11,8 @@ type (
 	}
 )
 
-func NewGrpcDial() GRPC {
-	conn, err := grpc.Dial("localhost:9001", grpc.WithTransportCredentials(insecure.NewCredentials()))
+func NewGrpcDial(Host string) GRPC {
+	conn, err := grpc.Dial(Host, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		panic(err)
 	}

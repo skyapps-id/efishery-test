@@ -3,6 +3,7 @@ package pkg
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/streadway/amqp"
 )
@@ -15,7 +16,11 @@ type (
 )
 
 func NewRabbitMQ() RabbitMQ {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	svrRabbitMQ := os.Getenv("SVR_RABBITMQ")
+	if svrRabbitMQ == "" {
+		svrRabbitMQ = "amqp://guest:guest@localhost:5672/"
+	}
+	conn, err := amqp.Dial(svrRabbitMQ)
 	if err != nil {
 		log.Fatal(err, "Failed to connect rabbitmq")
 	}

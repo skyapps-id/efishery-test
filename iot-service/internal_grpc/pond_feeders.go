@@ -6,6 +6,7 @@ import (
 	"iot-service/dto"
 	"iot-service/pkg"
 	service "iot-service/proto/pond_feeders"
+	"os"
 )
 
 type (
@@ -14,16 +15,21 @@ type (
 	}
 
 	pondFeedersInternalGRPCImpl struct {
-		GRPC pkg.GRPC
 	}
 )
 
-func NewPondFeedersInternalGRPC(GRPC pkg.GRPC) PondFeedersInternalGRPC {
-	return &pondFeedersInternalGRPCImpl{GRPC: GRPC}
+func NewPondFeedersInternalGRPC() PondFeedersInternalGRPC {
+	return &pondFeedersInternalGRPCImpl{}
 }
 
 func (i *pondFeedersInternalGRPCImpl) FetchPondFeeders(ctx context.Context, pondUuid string) (*dto.PondFeederGRPCResponse, error) {
-	pondFeeders := service.NewPondFeedersServiceClient(i.GRPC.ClientConn)
+	svrGRPC := os.Getenv("GRPC_FEEDER_SERVICE")
+	if svrGRPC == "" {
+		svrGRPC = "localhost:9001"
+	}
+	gRPC := pkg.NewGrpcDial(svrGRPC)
+
+	pondFeeders := service.NewPondFeedersServiceClient(gRPC.ClientConn)
 
 	req := &service.PondFeedersRequest{PondUuid: pondUuid}
 	response, err := pondFeeders.FetchPondFeeders(ctx, req)

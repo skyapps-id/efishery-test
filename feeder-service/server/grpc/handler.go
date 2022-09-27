@@ -17,7 +17,7 @@ import (
 )
 
 func HandlerGrpc(db *gorm.DB) {
-	port := os.Getenv("PORT")
+	port := os.Getenv("GRPC_PORT")
 	if port == "" {
 		port = "9001"
 	}

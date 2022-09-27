@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: iot-service
+    environment:
+      - DB_USER=user
+      - DB_PASS=pass
+      - DB_HOST=192.168.100.77
+      - DB_PORT=3306
+      - DB_NAME=iot-service
+      - SVR_RABBITMQ=amqp://guest:guest@192.168.100.77:5672/
+      - GRPC_FEEDER_SERVICE=192.168.100.77:9001
+    ports:
+      - "8000:8000"

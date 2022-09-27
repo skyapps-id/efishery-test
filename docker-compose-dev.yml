@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  message-broker:
+    image: rabbitmq:3-management-alpine
+    container_name: message-broker
+    hostname: message-broker
+    ports:
+      - 5672:5672   # for sender and consumer connections
+      - 15672:15672 # for serve RabbitMQ GUI
+    volumes:
+      - ./data_rabbitmq/:/var/lib/rabbitmq
+      - ./log_rabbitmq/:/var/log/rabbitmq
+    restart: always
+    networks:
+      - dev-network
+  iot-service-db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: mysql-iot-service
+    hostname: mysql-iot-service
+    environment:
+      MYSQL_ROOT_PASSWORD: 'rootTest'
+      MYSQL_DATABASE: 'iot-service'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'pass'
+      TZ: 'Asia/Jakarta'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    networks:
+      - dev-network
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+  feeder-service-db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: mysql-feeder-service
+    hostname: mysql-feeder-service
+    environment:
+      MYSQL_ROOT_PASSWORD: 'rootTest'
+      MYSQL_DATABASE: 'feeder-service'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'pass'
+      TZ: 'Asia/Jakarta'
+    ports:
+      - '3307:3306'
+    expose:
+      - '3306'
+    networks:
+      - dev-network
+    volumes:
+      - ./mysql-data-feeder:/var/lib/mysql
+
+networks:
+  # Create a new Docker network.
+  dev-network:
+    driver: bridge

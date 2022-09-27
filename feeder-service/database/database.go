@@ -11,22 +11,26 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-type Config struct {
-	DbUser string
-	DbPass string
-	DbHost string
-	DbPort int
-	DbName string
-}
-
 func Database() (*gorm.DB, error) {
-
-	config := &Config{
-		DbUser: "user",
-		DbPass: "pass",
-		DbHost: "localhost",
-		DbPort: 3307,
-		DbName: "feeder-service",
+	dbUser := os.Getenv("DB_USER")
+	if dbUser == "" {
+		dbUser = "user"
+	}
+	dbPass := os.Getenv("DB_PASS")
+	if dbPass == "" {
+		dbPass = "pass"
+	}
+	dbHost := os.Getenv("DB_HOST")
+	if dbHost == "" {
+		dbHost = "localhost"
+	}
+	dbPort := os.Getenv("DB_PORT")
+	if dbPort == "" {
+		dbPort = "3306"
+	}
+	dbName := os.Getenv("DB_NAME")
+	if dbName == "" {
+		dbName = "feeder-service"
 	}
 
 	newLogger := logger.New(
@@ -39,7 +43,7 @@ func Database() (*gorm.DB, error) {
 		},
 	)
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.DbUser, config.DbPass, config.DbHost, config.DbPort, config.DbName)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbHost, dbPort, dbName)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: newLogger,
 	})

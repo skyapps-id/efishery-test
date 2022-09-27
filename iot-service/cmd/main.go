@@ -11,8 +11,7 @@ import (
 )
 
 var (
-	db   *gorm.DB
-	gRPC pkg.GRPC
+	db *gorm.DB
 )
 
 func init() {
@@ -21,9 +20,6 @@ func init() {
 	if err != nil {
 		log.Println(err)
 	}
-
-	gRPC = pkg.NewGrpcDial()
-
 }
 
 func main() {
@@ -33,8 +29,8 @@ func main() {
 	defer rabbitMQ.Chanel.Close()
 
 	// Init module messaging
-	messaging.MessagingConsumer(rabbitMQ, db, gRPC)
+	messaging.MessagingConsumer(rabbitMQ, db)
 
-	rest.HandlerRest(db, gRPC)
+	rest.HandlerRest(db)
 	log.Println("exit complate!")
 }

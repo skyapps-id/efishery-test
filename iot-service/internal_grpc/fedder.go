@@ -6,6 +6,7 @@ import (
 	"iot-service/dto"
 	"iot-service/pkg"
 	service "iot-service/proto/feeder"
+	"os"
 )
 
 type (
@@ -14,16 +15,20 @@ type (
 	}
 
 	feederInternalGRPCImpl struct {
-		GRPC pkg.GRPC
 	}
 )
 
-func NewFeederInternalGRPC(GRPC pkg.GRPC) FeederInternalGRPC {
-	return &feederInternalGRPCImpl{GRPC: GRPC}
+func NewFeederInternalGRPC() FeederInternalGRPC {
+	return &feederInternalGRPCImpl{}
 }
 
 func (i *feederInternalGRPCImpl) FetchFeeder(ctx context.Context) (*dto.FeederGRPCResponse, error) {
-	fedders := service.NewFeederServiceClient(i.GRPC.ClientConn)
+	svrGRPC := os.Getenv("GRPC_FEEDER_SERVICE")
+	if svrGRPC == "" {
+		svrGRPC = "localhost:9001"
+	}
+	gRPC := pkg.NewGrpcDial(svrGRPC)
+	fedders := service.NewFeederServiceClient(gRPC.ClientConn)
 
 	req := &service.FeederRequestAll{}
 	response, err := fedders.FetchFeeders(ctx, req)

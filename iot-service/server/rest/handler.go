@@ -2,7 +2,6 @@ package rest
 
 import (
 	"iot-service/internal_grpc"
-	"iot-service/pkg"
 	"iot-service/repository"
 	"iot-service/server/rest/controller"
 	"iot-service/service"
@@ -12,7 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func HandlerRest(db *gorm.DB, gRPC pkg.GRPC) {
+func HandlerRest(db *gorm.DB) {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
@@ -22,7 +21,7 @@ func HandlerRest(db *gorm.DB, gRPC pkg.GRPC) {
 	healthCheck := controller.NewHealthCheckController()
 
 	// Feed Logs Summary
-	pondFeedersInternalGRPC := internal_grpc.NewPondFeedersInternalGRPC(gRPC)
+	pondFeedersInternalGRPC := internal_grpc.NewPondFeedersInternalGRPC()
 	feedLogsRepository := repository.NewFeedLogsRepository(db)
 	feedLogsSummaryService := service.NewPondFeedersService(pondFeedersInternalGRPC, feedLogsRepository)
 	feedLogsSummaryController := controller.NewFeedLogsSummaryController(feedLogsSummaryService)

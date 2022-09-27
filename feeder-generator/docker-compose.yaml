@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: feeder-generator
+    environment:
+      - SVR_RABBITMQ=amqp://guest:guest@192.168.100.77:5672/
+    ports:
+      - "3000:3000"

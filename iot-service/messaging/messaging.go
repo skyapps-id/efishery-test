@@ -11,9 +11,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func MessagingConsumer(rabbitMQ pkg.RabbitMQ, db *gorm.DB, gRPC pkg.GRPC) {
+func MessagingConsumer(rabbitMQ pkg.RabbitMQ, db *gorm.DB) {
 	// Load Dependency
-	feederGRPC := internal_grpc.NewFeederInternalGRPC(gRPC)
+	feederGRPC := internal_grpc.NewFeederInternalGRPC()
 	feederService := service.NewFeederService(feederGRPC)
 	feedLogsRepository := repository.NewFeedLogsRepository(db)
 	feedLogsService := service.NewFeedLogsService(feedLogsRepository)
