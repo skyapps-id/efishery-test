@@ -1,0 +1,112 @@
+version: "3.9"
+
+services:
+  message-broker:
+    image: rabbitmq:3-management-alpine
+    container_name: message-broker-dev
+    hostname: message-broker
+    ports:
+      - 5672   # for sender and consumer connections
+      - 15672 # for serve RabbitMQ GUI
+    volumes:
+      - ./data-rabbitmq-dev/:/var/lib/rabbitmq
+      - ./log-rabbitmq-dev/:/var/log/rabbitmq
+    restart: always
+    networks:
+      - dev-network
+
+  feeder-service-db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: mysql-feeder-service-dev
+    hostname: mysql-feeder-service
+    environment:
+      MYSQL_ROOT_PASSWORD: 'rootTest'
+      MYSQL_DATABASE: 'feeder-service'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'pass'
+      TZ: 'Asia/Jakarta'
+    ports:
+      - 3306
+    expose:
+      - 3306
+    networks:
+      - dev-network
+    volumes:
+      - ./mysql-data-feeder-dev:/var/lib/mysql
+      - ./feeder-service.sql:/home/feeder-service.sql
+      - ./initdb.sh:/home/initdb.sh
+
+  iot-service-db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: mysql-iot-service-dev
+    hostname: mysql-iot-service
+    environment:
+      MYSQL_ROOT_PASSWORD: 'rootTest'
+      MYSQL_DATABASE: 'iot-service'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'pass'
+      TZ: 'Asia/Jakarta'
+    ports:
+      - 3306
+    expose:
+      - 3306
+    networks:
+      - dev-network
+    volumes:
+      - ./mysql-data-dev:/var/lib/mysql
+  
+  feeder-generator-app:
+    image: ajiedafuq/feeder-generator:latest
+    container_name: feeder-generator-dev
+    environment:
+      - SVR_RABBITMQ=amqp://guest:guest@message-broker:5672/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - message-broker
+    networks:
+      - dev-network
+  
+  feeder-service-app:
+    image: ajiedafuq/feeder-service:latest
+    container_name: feeder-service
+    environment:
+      - DB_USER=user
+      - DB_PASS=pass
+      - DB_HOST=feeder-service-db
+      - DB_PORT=3306
+      - DB_NAME=feeder-service
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    depends_on:
+      - feeder-service-db
+    networks:
+      - dev-network
+  
+  iot-service-app:
+    image: ajiedafuq/iot-service:latest
+    container_name: iot-service
+    environment:
+      - DB_USER=user
+      - DB_PASS=pass
+      - DB_HOST=iot-service-db
+      - DB_PORT=3306
+      - DB_NAME=iot-service
+      - SVR_RABBITMQ=amqp://guest:guest@message-broker:5672/
+      - GRPC_FEEDER_SERVICE=feeder-service-app:9001
+    ports:
+      - "8000:8000"
+    depends_on:
+      - iot-service-db
+      - message-broker
+      - feeder-service-app
+    networks:
+      - dev-network
+
+networks:
+  # Create a new Docker network.
+  dev-network:
+    driver: bridge
