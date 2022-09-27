@@ -1,9 +1,11 @@
 package controller
 
 import (
-	"context"
+	"errors"
+	"iot-service/internal_const"
 	"iot-service/service"
-	"net/http"
+	"iot-service/utils"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -18,10 +20,22 @@ func NewFeedLogsSummaryController(services service.PondFeedersService) *FeedLogs
 	return &FeedLogsSummaryController{services: services}
 }
 func (c *FeedLogsSummaryController) FeedLogsSummary(ctx echo.Context) error {
-	data, err := c.services.Fatch(context.Background(), "26f1b9ee-65d9-4c7d-afb1-f7137fefa784")
+	var (
+		pondUuid = ctx.Param("pondUuid")
+		date     = ctx.Param("date")
+		msctx    = utils.NewMsContext(ctx)
+	)
+
+	// Validation Date
+	_, err := time.Parse("2006-01-02", date)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return msctx.Fail(internal_const.ErrBadRequest(errors.New("invalid format date")))
 	}
 
-	return ctx.JSON(http.StatusOK, data)
+	data, err := c.services.Fatch(msctx.Request().Context(), pondUuid, date)
+	if err != nil {
+		return msctx.Fail(err)
+	}
+
+	return msctx.Success(data)
 }

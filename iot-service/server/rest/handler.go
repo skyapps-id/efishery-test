@@ -33,7 +33,7 @@ func HandlerRest(db *gorm.DB) {
 	// Routing
 	e := echo.New()
 	e.GET("/", healthCheck.HealthCheck)
-	e.GET("/feedlogs-summary", feedLogsSummaryController.FeedLogsSummary)
+	e.GET("/feedlogs-summary/:pondUuid/:date", feedLogsSummaryController.FeedLogsSummary)
 
 	e.Logger.Fatal(e.Start(":" + port))
 }

@@ -44,7 +44,7 @@ func (m feederMessagingInst) FeederConsumer(topic, queue string) {
 		_, err = m.feedLogsService.Create(context.Background(), dto.FeederMessagingRequest{
 			Barcode:       *barcode,
 			ScheduleUUID:  feederMessaging.ScheduleUUID,
-			Data:          string(dataToString),
+			Data:          `{ "data": ` + string(dataToString) + ` }`,
 			DataCount:     len(feederMessaging.Data),
 			OutputGrCount: outputGrCount,
 		})

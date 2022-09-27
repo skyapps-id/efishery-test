@@ -3,6 +3,7 @@ module iot-service
 go 1.19
 
 require (
+	github.com/joomcode/errorx v1.1.0
 	github.com/labstack/echo/v4 v4.9.0
 	github.com/streadway/amqp v1.0.0
 	google.golang.org/grpc v1.49.0

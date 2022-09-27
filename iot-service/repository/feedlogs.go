@@ -34,18 +34,16 @@ func (r *feedLogsRepositoryImpl) Create(ctx context.Context, feedLogs entity.Fee
 func (r *feedLogsRepositoryImpl) Search(ctx context.Context, req dto.FeedLogsRequest) ([]entity.FeedLogs, error) {
 	var (
 		feedLogs = []entity.FeedLogs{}
-		orm      = r.orm.WithContext(ctx)
 	)
 
-	if req.Date != nil {
-		orm.Where("feed_logs.created_at = ? ", req.Date)
-	}
-
-	if req.Barcode != nil {
-		orm.Where("feed_logs.barcode IN ?", req.Barcode)
-	}
-
-	if result := r.orm.WithContext(ctx).Find(&feedLogs); result.Error != nil {
+	subQuery := r.orm.WithContext(ctx).Model(&entity.FeedLogs{}).Select("SUM(feed_logs.output_gr_count)").
+		Where("DATE(feed_logs.created_at) = ? ", req.Date).
+		Where("feed_logs.barcode IN ?", req.Barcode)
+	if result := r.orm.WithContext(ctx).
+		Select("*, (?) AS total_output_gr_count", subQuery).
+		Where("DATE(feed_logs.created_at) = ? ", req.Date).
+		Where("feed_logs.barcode IN ?", req.Barcode).
+		Find(&feedLogs); result.Error != nil {
 		return feedLogs, result.Error
 	}
 

@@ -35,7 +35,7 @@ func Database() (*gorm.DB, error) {
 		logger.Config{
 			SlowThreshold:             time.Second,   // Slow SQL threshold
 			LogLevel:                  logger.Silent, // Log level
-			IgnoreRecordNotFoundError: true,          // Ignore ErrRecordNotFound error for logger
+			IgnoreRecordNotFoundError: false,         // Ignore ErrRecordNotFound error for logger
 			Colorful:                  true,          // Disable color
 		},
 	)

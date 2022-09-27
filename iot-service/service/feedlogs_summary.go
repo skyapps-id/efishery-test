@@ -2,16 +2,16 @@ package service
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"iot-service/dto"
+	"iot-service/internal_const"
 	"iot-service/internal_grpc"
 	"iot-service/repository"
+	"iot-service/server/rest/mapper"
 )
 
 type (
 	PondFeedersService interface {
-		Fatch(ctx context.Context, PondUuid string) (*dto.FeedLogsResponse, error)
+		Fatch(ctx context.Context, PondUuid, Date string) (*dto.FeedLogsResponse, error)
 	}
 
 	pondFeedersServiceImpl struct {
@@ -24,22 +24,24 @@ func NewPondFeedersService(internal internal_grpc.PondFeedersInternalGRPC, repos
 	return &pondFeedersServiceImpl{internal: internal, repository: repository}
 }
 
-func (i *pondFeedersServiceImpl) Fatch(ctx context.Context, PondUuid string) (*dto.FeedLogsResponse, error) {
+func (i *pondFeedersServiceImpl) Fatch(ctx context.Context, PondUuid, Date string) (*dto.FeedLogsResponse, error) {
 	pondFeeds, err := i.internal.FatchPondFeeders(ctx, PondUuid)
+	if err != nil {
+		if err.Error() == "not found record" {
+			return nil, internal_const.ErrRecordNotFound()
+		}
+		return nil, internal_const.ErrBadRequest(err)
+	}
+
+	var barcodes []string
+	for _, item := range pondFeeds.Data {
+		barcodes = append(barcodes, item.Barcode)
+	}
+
+	feedlogs, err := i.repository.Search(ctx, dto.FeedLogsRequest{Date: Date, Barcode: barcodes})
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(pondFeeds)
 
-	feedlogs, _ := i.repository.Search(ctx, dto.FeedLogsRequest{Date: nil, Barcode: nil})
-	fmt.Println(feedlogs[0].Data)
-	var history map[string]interface{}
-	json.Unmarshal([]byte(`{"data": `+feedlogs[0].Data+`}`), &history)
-	fmt.Println(history)
-
-	return &dto.FeedLogsResponse{
-		PondUUID: pondFeeds.Data[0].PondUUID,
-		PondName: "",
-		History:  history["data"],
-	}, nil
+	return mapper.MapPondFeedersToPondFeedersResponse(Date, pondFeeds, feedlogs), nil
 }
