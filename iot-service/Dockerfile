@@ -1,4 +1,5 @@
-FROM golang:alpine
+# Build
+FROM golang:alpine AS build
 
 RUN apk update && apk add --no-cache git
 
@@ -9,5 +10,13 @@ COPY . .
 RUN go mod tidy
 
 RUN go build -o binary cmd/main.go 
+
+
+# Final
+FROM alpine:latest
+
+WORKDIR /app
+
+COPY --from=build /app/binary /app/binary
 
 ENTRYPOINT ["/app/binary"]
