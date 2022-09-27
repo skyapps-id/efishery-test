@@ -1,4 +1,4 @@
-# Golang REST Example
+# Efishery Test
 
 ### Architecture
 ![Alt text](arc.jpeg "profile-service-endpoint-2")
@@ -9,8 +9,20 @@
 - RabbitMQ
 - mySQL
 
-### Quick Installation 
+### Quick Installation
 1. Run service Messaging and Database
+    ```sh
+    $ docker-compose -f docker-compose-dev.yml up -d
+    ```
+2. Login to container ```mysql-feeder-service-dev```
+    ```sh
+    $ docker exec -it mysql-feeder-service-dev bin/sh
+    ```
+3. Restore backup database ```feeder-service.sql``` to mySQL feeder-service
+    ```sh
+    $ mysql -u=user -p feeder-service < home/feeder-service.sql
+    ```
+4. Rerun service Messaging and Database
     ```sh
     $ docker-compose -f docker-compose-dev.yml up -d
     ```
@@ -63,9 +75,9 @@
 
 ### Test Service 
 1. Run 3 endpoint API for send feedlogs
-    - http://llocalhost:3000/send-feeder/00001-AL03005090R-SMIT
-    - http://llocalhost:3000/send-feeder/00001-AL03005090R-SMIT
-    - http://llocalhost:3000/send-feeder/00001-AL03005090R-SMIT
+    - http://localhost:3000/send-feeder/00001-AL03005090R-SMIT
+    - http://localhost:3000/send-feeder/00002-AL03005090R-F3ot
+    - http://localhost:3000/send-feeder/00005-AL15005090R-dxbm
 
 2. Run endpoint API http://localhost:8000/feedlogs-summary/{pond_uuid}/{data}
     - Example
