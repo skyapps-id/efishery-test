@@ -29,7 +29,7 @@ func HandlerRest(db *gorm.DB, gRPC pkg.GRPC) {
 
 	// Routing
 	e := echo.New()
-	e.GET("/", healthCheck.HealthCheck)
+	e.GET("/health-check", healthCheck.HealthCheck)
 	e.GET("/feedlogs-summary/:pondUuid/:date", feedLogsSummaryController.FeedLogsSummary)
 
 	e.Logger.Fatal(e.Start(":" + port))

@@ -16,7 +16,7 @@ func HandlerRest() {
 	// Controller
 	healthCheck := controller.NewHealthCheckController()
 
-	http.HandleFunc("/", healthCheck.HealthCheck)
+	http.HandleFunc("/health-check", healthCheck.HealthCheck)
 
 	log.Println("Listing for Rest API " + port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
