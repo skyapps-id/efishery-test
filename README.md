@@ -9,7 +9,7 @@
 - RabbitMQ
 - mySQL
 
-### Qucik Installation 
+### Quick Installation 
 1. Run service Messaging and Database
     ```sh
     $ docker-compose -f docker-compose-dev.yml up -d
