@@ -16,7 +16,7 @@ func (g *PondGRPC) Pond(ctx context.Context, req *pond.PondRequest) (*pond.PondR
 	if ID == "" {
 		return &pond.PondResponse{Status: false, Message: "id is empty", Data: nil}, nil
 	}
-	result, err := g.Services.FatchByUUID(ctx, ID)
+	result, err := g.Services.FetchByUUID(ctx, ID)
 	if err != nil {
 		return &pond.PondResponse{Status: false, Message: err.Error(), Data: nil}, nil
 	}

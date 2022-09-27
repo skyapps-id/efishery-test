@@ -9,9 +9,9 @@ import (
 
 type (
 	FeederRepository interface {
-		Fatch(ctx context.Context) ([]entity.Feeder, error)
-		FatchByID(ctx context.Context, uuid string) (entity.Feeder, error)
-		FatchByBarcode(ctx context.Context, barcode []string) ([]entity.Feeder, error)
+		Fetch(ctx context.Context) ([]entity.Feeder, error)
+		FetchByID(ctx context.Context, uuid string) (entity.Feeder, error)
+		FetchByBarcode(ctx context.Context, barcode []string) ([]entity.Feeder, error)
 	}
 
 	feederRepositoryImpl struct {
@@ -23,7 +23,7 @@ func NewFeederRepository(orm *gorm.DB) FeederRepository {
 	return &feederRepositoryImpl{orm: orm}
 }
 
-func (r *feederRepositoryImpl) Fatch(ctx context.Context) ([]entity.Feeder, error) {
+func (r *feederRepositoryImpl) Fetch(ctx context.Context) ([]entity.Feeder, error) {
 	var (
 		feeders = []entity.Feeder{}
 		err     error
@@ -37,7 +37,7 @@ func (r *feederRepositoryImpl) Fatch(ctx context.Context) ([]entity.Feeder, erro
 	return feeders, err
 }
 
-func (r *feederRepositoryImpl) FatchByID(ctx context.Context, uuid string) (entity.Feeder, error) {
+func (r *feederRepositoryImpl) FetchByID(ctx context.Context, uuid string) (entity.Feeder, error) {
 	var (
 		feeder = entity.Feeder{}
 		err    error
@@ -51,7 +51,7 @@ func (r *feederRepositoryImpl) FatchByID(ctx context.Context, uuid string) (enti
 	return feeder, err
 }
 
-func (r *feederRepositoryImpl) FatchByBarcode(ctx context.Context, barcode []string) ([]entity.Feeder, error) {
+func (r *feederRepositoryImpl) FetchByBarcode(ctx context.Context, barcode []string) ([]entity.Feeder, error) {
 	var (
 		feeders = []entity.Feeder{}
 		err     error

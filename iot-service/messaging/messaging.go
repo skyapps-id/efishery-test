@@ -19,9 +19,9 @@ func MessagingConsumer(rabbitMQ pkg.RabbitMQ, db *gorm.DB, gRPC pkg.GRPC) {
 	feedLogsService := service.NewFeedLogsService(feedLogsRepository)
 
 	// Messaging Consumer Module
-	feeders, err := feederService.Fatch(context.Background())
+	feeders, err := feederService.Fetch(context.Background())
 	if err != nil {
-		log.Fatal(" -> Can't Fatch feeder devices, please run feeder service. or check connection")
+		log.Fatal(" -> Can't Fetch feeder devices, please run feeder service. or check connection")
 	}
 
 	messaging := NewFeederMessaging(rabbitMQ, feedLogsService)

@@ -10,7 +10,7 @@ import (
 
 type (
 	FeederInternalGRPC interface {
-		FatchFeeder(ctx context.Context) (*dto.FeederGRPCResponse, error)
+		FetchFeeder(ctx context.Context) (*dto.FeederGRPCResponse, error)
 	}
 
 	feederInternalGRPCImpl struct {
@@ -22,11 +22,11 @@ func NewFeederInternalGRPC(GRPC pkg.GRPC) FeederInternalGRPC {
 	return &feederInternalGRPCImpl{GRPC: GRPC}
 }
 
-func (i *feederInternalGRPCImpl) FatchFeeder(ctx context.Context) (*dto.FeederGRPCResponse, error) {
+func (i *feederInternalGRPCImpl) FetchFeeder(ctx context.Context) (*dto.FeederGRPCResponse, error) {
 	fedders := service.NewFeederServiceClient(i.GRPC.ClientConn)
 
 	req := &service.FeederRequestAll{}
-	response, err := fedders.FatchFeeders(ctx, req)
+	response, err := fedders.FetchFeeders(ctx, req)
 	if err != nil {
 		return nil, err
 	}

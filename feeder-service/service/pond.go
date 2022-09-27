@@ -8,7 +8,7 @@ import (
 
 type (
 	PondService interface {
-		FatchByUUID(ctx context.Context, UUID string) (*dto.PondResponse, error)
+		FetchByUUID(ctx context.Context, UUID string) (*dto.PondResponse, error)
 	}
 
 	pondServiceImpl struct {
@@ -20,8 +20,8 @@ func NewPondService(repository repository.PondRepository) PondService {
 	return &pondServiceImpl{repository: repository}
 }
 
-func (i *pondServiceImpl) FatchByUUID(ctx context.Context, UUID string) (*dto.PondResponse, error) {
-	pond, err := i.repository.FatchByID(ctx, UUID)
+func (i *pondServiceImpl) FetchByUUID(ctx context.Context, UUID string) (*dto.PondResponse, error) {
+	pond, err := i.repository.FetchByID(ctx, UUID)
 	if err != nil {
 		return nil, err
 	}

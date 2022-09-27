@@ -26,5 +26,5 @@ message PondFeedersResponse {
 
 
 service PondFeedersService {
-  rpc FatchPondFeeders(PondFeedersRequest) returns (PondFeedersResponse) {}
+  rpc FetchPondFeeders(PondFeedersRequest) returns (PondFeedersResponse) {}
 }

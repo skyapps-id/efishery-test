@@ -8,7 +8,7 @@ import (
 
 type (
 	FeederService interface {
-		Fatch(ctx context.Context) ([]dto.FeederResponse, error)
+		Fetch(ctx context.Context) ([]dto.FeederResponse, error)
 	}
 
 	feederServiceImpl struct {
@@ -20,8 +20,8 @@ func NewFeederService(internal internal_grpc.FeederInternalGRPC) FeederService {
 	return &feederServiceImpl{internal: internal}
 }
 
-func (i *feederServiceImpl) Fatch(ctx context.Context) ([]dto.FeederResponse, error) {
-	feederGRPC, err := i.internal.FatchFeeder(ctx)
+func (i *feederServiceImpl) Fetch(ctx context.Context) ([]dto.FeederResponse, error) {
+	feederGRPC, err := i.internal.FetchFeeder(ctx)
 	if err != nil {
 		return nil, err
 	}

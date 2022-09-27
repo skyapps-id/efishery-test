@@ -9,7 +9,7 @@ import (
 
 type (
 	PondFeederRepository interface {
-		FatchPondFeeders(ctx context.Context, id string) ([]entity.PondFeeder, error)
+		FetchPondFeeders(ctx context.Context, id string) ([]entity.PondFeeder, error)
 	}
 
 	pondFeedersRepositoryImpl struct {
@@ -21,7 +21,7 @@ func NewPondFeederRepository(orm *gorm.DB) PondFeederRepository {
 	return &pondFeedersRepositoryImpl{orm: orm}
 }
 
-func (r *pondFeedersRepositoryImpl) FatchPondFeeders(ctx context.Context, pondUuid string) ([]entity.PondFeeder, error) {
+func (r *pondFeedersRepositoryImpl) FetchPondFeeders(ctx context.Context, pondUuid string) ([]entity.PondFeeder, error) {
 	var (
 		pondFeeders = []entity.PondFeeder{}
 		err         error

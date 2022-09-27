@@ -260,8 +260,8 @@ var file_pond_feeders_proto_goTypes = []interface{}{
 }
 var file_pond_feeders_proto_depIdxs = []int32{
 	0, // 0: pond_feeders.PondFeedersResponse.data:type_name -> pond_feeders.PondFeeder
-	1, // 1: pond_feeders.PondFeedersService.FatchPondFeeders:input_type -> pond_feeders.PondFeedersRequest
-	2, // 2: pond_feeders.PondFeedersService.FatchPondFeeders:output_type -> pond_feeders.PondFeedersResponse
+	1, // 1: pond_feeders.PondFeedersService.FetchPondFeeders:input_type -> pond_feeders.PondFeedersRequest
+	2, // 2: pond_feeders.PondFeedersService.FetchPondFeeders:output_type -> pond_feeders.PondFeedersResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

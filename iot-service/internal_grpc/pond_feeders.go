@@ -10,7 +10,7 @@ import (
 
 type (
 	PondFeedersInternalGRPC interface {
-		FatchPondFeeders(ctx context.Context, pondUuid string) (*dto.PondFeederGRPCResponse, error)
+		FetchPondFeeders(ctx context.Context, pondUuid string) (*dto.PondFeederGRPCResponse, error)
 	}
 
 	pondFeedersInternalGRPCImpl struct {
@@ -22,11 +22,11 @@ func NewPondFeedersInternalGRPC(GRPC pkg.GRPC) PondFeedersInternalGRPC {
 	return &pondFeedersInternalGRPCImpl{GRPC: GRPC}
 }
 
-func (i *pondFeedersInternalGRPCImpl) FatchPondFeeders(ctx context.Context, pondUuid string) (*dto.PondFeederGRPCResponse, error) {
+func (i *pondFeedersInternalGRPCImpl) FetchPondFeeders(ctx context.Context, pondUuid string) (*dto.PondFeederGRPCResponse, error) {
 	pondFeeders := service.NewPondFeedersServiceClient(i.GRPC.ClientConn)
 
 	req := &service.PondFeedersRequest{PondUuid: pondUuid}
-	response, err := pondFeeders.FatchPondFeeders(ctx, req)
+	response, err := pondFeeders.FetchPondFeeders(ctx, req)
 	if err != nil {
 		return nil, err
 	}

@@ -11,7 +11,7 @@ type PondFeedersGRPC struct {
 	Services service.PondFeederService
 }
 
-func (g *PondFeedersGRPC) FatchPondFeeders(ctx context.Context, req *pond_feeders.PondFeedersRequest) (*pond_feeders.PondFeedersResponse, error) {
+func (g *PondFeedersGRPC) FetchPondFeeders(ctx context.Context, req *pond_feeders.PondFeedersRequest) (*pond_feeders.PondFeedersResponse, error) {
 	var (
 		pondUUID = req.GetPondUuid()
 		results  = []*pond_feeders.PondFeeder{}
@@ -20,7 +20,7 @@ func (g *PondFeedersGRPC) FatchPondFeeders(ctx context.Context, req *pond_feeder
 	if pondUUID == "" {
 		return &pond_feeders.PondFeedersResponse{Status: false, Message: "field pond_uuid is empty", Data: nil}, nil
 	}
-	feeders, err := g.Services.FatchPondFeeders(ctx, pondUUID)
+	feeders, err := g.Services.FetchPondFeeders(ctx, pondUUID)
 	if err != nil {
 		return &pond_feeders.PondFeedersResponse{Status: false, Message: err.Error(), Data: results}, nil
 	}

@@ -8,7 +8,7 @@ import (
 
 type (
 	PondFeederService interface {
-		FatchPondFeeders(ctx context.Context, pondUUID string) (*[]dto.PondFeederResponse, error)
+		FetchPondFeeders(ctx context.Context, pondUUID string) (*[]dto.PondFeederResponse, error)
 	}
 
 	pondFeederServiceImpl struct {
@@ -20,8 +20,8 @@ func NewPondFeederService(repository repository.PondFeederRepository) PondFeeder
 	return &pondFeederServiceImpl{repository: repository}
 }
 
-func (i *pondFeederServiceImpl) FatchPondFeeders(ctx context.Context, pondUUID string) (*[]dto.PondFeederResponse, error) {
-	feeders, err := i.repository.FatchPondFeeders(ctx, pondUUID)
+func (i *pondFeederServiceImpl) FetchPondFeeders(ctx context.Context, pondUUID string) (*[]dto.PondFeederResponse, error) {
+	feeders, err := i.repository.FetchPondFeeders(ctx, pondUUID)
 	if err != nil {
 		return nil, err
 	}

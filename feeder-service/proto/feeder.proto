@@ -39,7 +39,7 @@ message FeederResponses {
 }
 
 service FeederService {
-  rpc FatchFeeders(FeederRequestAll) returns (FeederResponses) {}
+  rpc FetchFeeders(FeederRequestAll) returns (FeederResponses) {}
   rpc FindFeederById(FeederRequestById) returns (FeederResponse) {}
   rpc FindFeederByBarcode(FeederRequestByBarcode) returns (FeederResponses) {}
 }

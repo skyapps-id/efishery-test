@@ -8,9 +8,9 @@ import (
 
 type (
 	FeederService interface {
-		Fatch(ctx context.Context) (*[]dto.FeederResponse, error)
-		FatchByUUID(ctx context.Context, UUID string) (*dto.FeederResponse, error)
-		FatchByBarcode(ctx context.Context, Barcode []string) (*[]dto.FeederResponse, error)
+		Fetch(ctx context.Context) (*[]dto.FeederResponse, error)
+		FetchByUUID(ctx context.Context, UUID string) (*dto.FeederResponse, error)
+		FetchByBarcode(ctx context.Context, Barcode []string) (*[]dto.FeederResponse, error)
 	}
 
 	feederServiceImpl struct {
@@ -22,8 +22,8 @@ func NewFeederService(repository repository.FeederRepository) FeederService {
 	return &feederServiceImpl{repository: repository}
 }
 
-func (i *feederServiceImpl) Fatch(ctx context.Context) (*[]dto.FeederResponse, error) {
-	feeders, err := i.repository.Fatch(ctx)
+func (i *feederServiceImpl) Fetch(ctx context.Context) (*[]dto.FeederResponse, error) {
+	feeders, err := i.repository.Fetch(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42,8 +42,8 @@ func (i *feederServiceImpl) Fatch(ctx context.Context) (*[]dto.FeederResponse, e
 	return &results, nil
 }
 
-func (i *feederServiceImpl) FatchByUUID(ctx context.Context, UUID string) (*dto.FeederResponse, error) {
-	feeder, err := i.repository.FatchByID(ctx, UUID)
+func (i *feederServiceImpl) FetchByUUID(ctx context.Context, UUID string) (*dto.FeederResponse, error) {
+	feeder, err := i.repository.FetchByID(ctx, UUID)
 	if err != nil {
 		return nil, err
 	}
@@ -57,8 +57,8 @@ func (i *feederServiceImpl) FatchByUUID(ctx context.Context, UUID string) (*dto.
 	}, nil
 }
 
-func (i *feederServiceImpl) FatchByBarcode(ctx context.Context, Barcode []string) (*[]dto.FeederResponse, error) {
-	feeders, err := i.repository.FatchByBarcode(ctx, Barcode)
+func (i *feederServiceImpl) FetchByBarcode(ctx context.Context, Barcode []string) (*[]dto.FeederResponse, error) {
+	feeders, err := i.repository.FetchByBarcode(ctx, Barcode)
 	if err != nil {
 		return nil, err
 	}

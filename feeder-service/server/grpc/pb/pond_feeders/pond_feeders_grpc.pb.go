@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PondFeedersServiceClient interface {
-	FatchPondFeeders(ctx context.Context, in *PondFeedersRequest, opts ...grpc.CallOption) (*PondFeedersResponse, error)
+	FetchPondFeeders(ctx context.Context, in *PondFeedersRequest, opts ...grpc.CallOption) (*PondFeedersResponse, error)
 }
 
 type pondFeedersServiceClient struct {
@@ -33,9 +33,9 @@ func NewPondFeedersServiceClient(cc grpc.ClientConnInterface) PondFeedersService
 	return &pondFeedersServiceClient{cc}
 }
 
-func (c *pondFeedersServiceClient) FatchPondFeeders(ctx context.Context, in *PondFeedersRequest, opts ...grpc.CallOption) (*PondFeedersResponse, error) {
+func (c *pondFeedersServiceClient) FetchPondFeeders(ctx context.Context, in *PondFeedersRequest, opts ...grpc.CallOption) (*PondFeedersResponse, error) {
 	out := new(PondFeedersResponse)
-	err := c.cc.Invoke(ctx, "/pond_feeders.PondFeedersService/FatchPondFeeders", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pond_feeders.PondFeedersService/FetchPondFeeders", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *pondFeedersServiceClient) FatchPondFeeders(ctx context.Context, in *Pon
 // All implementations must embed UnimplementedPondFeedersServiceServer
 // for forward compatibility
 type PondFeedersServiceServer interface {
-	FatchPondFeeders(context.Context, *PondFeedersRequest) (*PondFeedersResponse, error)
+	FetchPondFeeders(context.Context, *PondFeedersRequest) (*PondFeedersResponse, error)
 	mustEmbedUnimplementedPondFeedersServiceServer()
 }
 
@@ -54,8 +54,8 @@ type PondFeedersServiceServer interface {
 type UnimplementedPondFeedersServiceServer struct {
 }
 
-func (UnimplementedPondFeedersServiceServer) FatchPondFeeders(context.Context, *PondFeedersRequest) (*PondFeedersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FatchPondFeeders not implemented")
+func (UnimplementedPondFeedersServiceServer) FetchPondFeeders(context.Context, *PondFeedersRequest) (*PondFeedersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FetchPondFeeders not implemented")
 }
 func (UnimplementedPondFeedersServiceServer) mustEmbedUnimplementedPondFeedersServiceServer() {}
 
@@ -70,20 +70,20 @@ func RegisterPondFeedersServiceServer(s grpc.ServiceRegistrar, srv PondFeedersSe
 	s.RegisterService(&PondFeedersService_ServiceDesc, srv)
 }
 
-func _PondFeedersService_FatchPondFeeders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PondFeedersService_FetchPondFeeders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PondFeedersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PondFeedersServiceServer).FatchPondFeeders(ctx, in)
+		return srv.(PondFeedersServiceServer).FetchPondFeeders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pond_feeders.PondFeedersService/FatchPondFeeders",
+		FullMethod: "/pond_feeders.PondFeedersService/FetchPondFeeders",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PondFeedersServiceServer).FatchPondFeeders(ctx, req.(*PondFeedersRequest))
+		return srv.(PondFeedersServiceServer).FetchPondFeeders(ctx, req.(*PondFeedersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -96,8 +96,8 @@ var PondFeedersService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PondFeedersServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "FatchPondFeeders",
-			Handler:    _PondFeedersService_FatchPondFeeders_Handler,
+			MethodName: "FetchPondFeeders",
+			Handler:    _PondFeedersService_FetchPondFeeders_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

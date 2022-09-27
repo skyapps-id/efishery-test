@@ -11,12 +11,12 @@ type FeederGRPC struct {
 	Services service.FeederService
 }
 
-func (g *FeederGRPC) FatchFeeders(ctx context.Context, req *feeder.FeederRequestAll) (*feeder.FeederResponses, error) {
+func (g *FeederGRPC) FetchFeeders(ctx context.Context, req *feeder.FeederRequestAll) (*feeder.FeederResponses, error) {
 	var (
 		results = []*feeder.Feeder{}
 	)
 
-	feeders, err := g.Services.Fatch(ctx)
+	feeders, err := g.Services.Fetch(ctx)
 	if err != nil {
 		return &feeder.FeederResponses{Status: false, Message: err.Error(), Data: results}, nil
 	}
@@ -37,7 +37,7 @@ func (g *FeederGRPC) FindFeederById(ctx context.Context, req *feeder.FeederReque
 	if ID == "" {
 		return &feeder.FeederResponse{Status: false, Message: "field id is empty", Data: nil}, nil
 	}
-	result, err := g.Services.FatchByUUID(ctx, ID)
+	result, err := g.Services.FetchByUUID(ctx, ID)
 	if err != nil {
 		return &feeder.FeederResponse{Status: false, Message: err.Error(), Data: nil}, nil
 	}
@@ -59,7 +59,7 @@ func (g *FeederGRPC) FindFeederByBarcode(ctx context.Context, req *feeder.Feeder
 	if len(barcode) == 0 {
 		return &feeder.FeederResponses{Status: false, Message: "field barcode is empty", Data: results}, nil
 	}
-	feeders, err := g.Services.FatchByBarcode(ctx, barcode)
+	feeders, err := g.Services.FetchByBarcode(ctx, barcode)
 	if err != nil {
 		return &feeder.FeederResponses{Status: false, Message: err.Error(), Data: results}, nil
 	}

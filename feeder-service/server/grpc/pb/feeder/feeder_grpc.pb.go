@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FeederServiceClient interface {
-	FatchFeeders(ctx context.Context, in *FeederRequestAll, opts ...grpc.CallOption) (*FeederResponses, error)
+	FetchFeeders(ctx context.Context, in *FeederRequestAll, opts ...grpc.CallOption) (*FeederResponses, error)
 	FindFeederById(ctx context.Context, in *FeederRequestById, opts ...grpc.CallOption) (*FeederResponse, error)
 	FindFeederByBarcode(ctx context.Context, in *FeederRequestByBarcode, opts ...grpc.CallOption) (*FeederResponses, error)
 }
@@ -35,9 +35,9 @@ func NewFeederServiceClient(cc grpc.ClientConnInterface) FeederServiceClient {
 	return &feederServiceClient{cc}
 }
 
-func (c *feederServiceClient) FatchFeeders(ctx context.Context, in *FeederRequestAll, opts ...grpc.CallOption) (*FeederResponses, error) {
+func (c *feederServiceClient) FetchFeeders(ctx context.Context, in *FeederRequestAll, opts ...grpc.CallOption) (*FeederResponses, error) {
 	out := new(FeederResponses)
-	err := c.cc.Invoke(ctx, "/feeder.FeederService/FatchFeeders", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/feeder.FeederService/FetchFeeders", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (c *feederServiceClient) FindFeederByBarcode(ctx context.Context, in *Feede
 // All implementations must embed UnimplementedFeederServiceServer
 // for forward compatibility
 type FeederServiceServer interface {
-	FatchFeeders(context.Context, *FeederRequestAll) (*FeederResponses, error)
+	FetchFeeders(context.Context, *FeederRequestAll) (*FeederResponses, error)
 	FindFeederById(context.Context, *FeederRequestById) (*FeederResponse, error)
 	FindFeederByBarcode(context.Context, *FeederRequestByBarcode) (*FeederResponses, error)
 	mustEmbedUnimplementedFeederServiceServer()
@@ -76,8 +76,8 @@ type FeederServiceServer interface {
 type UnimplementedFeederServiceServer struct {
 }
 
-func (UnimplementedFeederServiceServer) FatchFeeders(context.Context, *FeederRequestAll) (*FeederResponses, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FatchFeeders not implemented")
+func (UnimplementedFeederServiceServer) FetchFeeders(context.Context, *FeederRequestAll) (*FeederResponses, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FetchFeeders not implemented")
 }
 func (UnimplementedFeederServiceServer) FindFeederById(context.Context, *FeederRequestById) (*FeederResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindFeederById not implemented")
@@ -98,20 +98,20 @@ func RegisterFeederServiceServer(s grpc.ServiceRegistrar, srv FeederServiceServe
 	s.RegisterService(&FeederService_ServiceDesc, srv)
 }
 
-func _FeederService_FatchFeeders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FeederService_FetchFeeders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FeederRequestAll)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FeederServiceServer).FatchFeeders(ctx, in)
+		return srv.(FeederServiceServer).FetchFeeders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/feeder.FeederService/FatchFeeders",
+		FullMethod: "/feeder.FeederService/FetchFeeders",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FeederServiceServer).FatchFeeders(ctx, req.(*FeederRequestAll))
+		return srv.(FeederServiceServer).FetchFeeders(ctx, req.(*FeederRequestAll))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -160,8 +160,8 @@ var FeederService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*FeederServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "FatchFeeders",
-			Handler:    _FeederService_FatchFeeders_Handler,
+			MethodName: "FetchFeeders",
+			Handler:    _FeederService_FetchFeeders_Handler,
 		},
 		{
 			MethodName: "FindFeederById",

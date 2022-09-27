@@ -11,7 +11,7 @@ import (
 
 type (
 	PondFeedersService interface {
-		Fatch(ctx context.Context, PondUuid, Date string) (*dto.FeedLogsResponse, error)
+		Fetch(ctx context.Context, PondUuid, Date string) (*dto.FeedLogsResponse, error)
 	}
 
 	pondFeedersServiceImpl struct {
@@ -24,8 +24,8 @@ func NewPondFeedersService(internal internal_grpc.PondFeedersInternalGRPC, repos
 	return &pondFeedersServiceImpl{internal: internal, repository: repository}
 }
 
-func (i *pondFeedersServiceImpl) Fatch(ctx context.Context, PondUuid, Date string) (*dto.FeedLogsResponse, error) {
-	pondFeeds, err := i.internal.FatchPondFeeders(ctx, PondUuid)
+func (i *pondFeedersServiceImpl) Fetch(ctx context.Context, PondUuid, Date string) (*dto.FeedLogsResponse, error) {
+	pondFeeds, err := i.internal.FetchPondFeeders(ctx, PondUuid)
 	if err != nil {
 		if err.Error() == "not found record" {
 			return nil, internal_const.ErrRecordNotFound()

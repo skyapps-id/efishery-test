@@ -32,7 +32,7 @@ func (c *FeedLogsSummaryController) FeedLogsSummary(ctx echo.Context) error {
 		return msctx.Fail(internal_const.ErrBadRequest(errors.New("invalid format date")))
 	}
 
-	data, err := c.services.Fatch(msctx.Request().Context(), pondUuid, date)
+	data, err := c.services.Fetch(msctx.Request().Context(), pondUuid, date)
 	if err != nil {
 		return msctx.Fail(err)
 	}

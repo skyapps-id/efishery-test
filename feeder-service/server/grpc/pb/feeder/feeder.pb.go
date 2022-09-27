@@ -418,10 +418,10 @@ var file_feeder_proto_goTypes = []interface{}{
 var file_feeder_proto_depIdxs = []int32{
 	0, // 0: feeder.FeederResponse.data:type_name -> feeder.Feeder
 	0, // 1: feeder.FeederResponses.data:type_name -> feeder.Feeder
-	1, // 2: feeder.FeederService.FatchFeeders:input_type -> feeder.FeederRequestAll
+	1, // 2: feeder.FeederService.FetchFeeders:input_type -> feeder.FeederRequestAll
 	2, // 3: feeder.FeederService.FindFeederById:input_type -> feeder.FeederRequestById
 	3, // 4: feeder.FeederService.FindFeederByBarcode:input_type -> feeder.FeederRequestByBarcode
-	5, // 5: feeder.FeederService.FatchFeeders:output_type -> feeder.FeederResponses
+	5, // 5: feeder.FeederService.FetchFeeders:output_type -> feeder.FeederResponses
 	4, // 6: feeder.FeederService.FindFeederById:output_type -> feeder.FeederResponse
 	5, // 7: feeder.FeederService.FindFeederByBarcode:output_type -> feeder.FeederResponses
 	5, // [5:8] is the sub-list for method output_type
