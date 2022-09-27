@@ -31,6 +31,7 @@ func (i *pondFeederServiceImpl) FatchPondFeeders(ctx context.Context, pondUUID s
 		results = append(results, dto.PondFeederResponse{
 			PondUUID:   row.PondUUID,
 			FeederUUID: row.FeederUUID,
+			Name:       row.Name,
 			Barcode:    row.Barcode,
 		})
 	}

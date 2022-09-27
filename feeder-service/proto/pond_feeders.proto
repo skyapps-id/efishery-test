@@ -9,7 +9,8 @@ option go_package = "server/grpc/pb/pond_feeders;pond_feeders";
 message PondFeeder {
     string pond_uuid = 1;
     string feeder_uuid = 2;
-    string barcode = 3;
+    string name = 3;
+    string barcode = 4;
 }
 
 message PondFeedersRequest {

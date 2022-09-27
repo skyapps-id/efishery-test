@@ -55,7 +55,7 @@ func MapPondFeedersToPondFeedersResponse(Date string, pondFeeds *dto.PondFeederG
 
 	return &dto.FeedLogsResponse{
 		PondUUID: pondFeeds.Data[0].PondUUID,
-		PondName: "",
+		PondName: pondFeeds.Data[0].Name,
 		Feedlogs: mapFeedlogs,
 	}
 }

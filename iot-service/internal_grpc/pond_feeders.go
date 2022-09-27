@@ -44,6 +44,7 @@ func (i *pondFeedersInternalGRPCImpl) FatchPondFeeders(ctx context.Context, pond
 		results = append(results, dto.PondFeeder{
 			PondUUID:   row.PondUuid,
 			FeederUUID: row.FeederUuid,
+			Name:       row.Name,
 			Barcode:    row.Barcode,
 		})
 	}
