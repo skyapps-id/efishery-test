@@ -12,14 +12,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func HandlerRest(db *gorm.DB) {
+func HandlerRest(db *gorm.DB, gRPC pkg.GRPC) {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
 	}
-
-	// Common
-	gRPC := pkg.NewGrpcDial()
 
 	// Controller
 	healthCheck := controller.NewHealthCheckController()
