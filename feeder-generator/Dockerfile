@@ -18,5 +18,6 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=build /app/binary /app/binary
+COPY --from=build /app/json /app/json
 
 ENTRYPOINT ["/app/binary"]
