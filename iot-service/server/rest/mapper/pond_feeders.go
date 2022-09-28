@@ -19,7 +19,10 @@ type (
 )
 
 func MapPondFeedersToPondFeedersResponse(Date string, pondFeeds *dto.PondFeederGRPCResponse, feedlogs []entity.FeedLogs) *dto.FeedLogsResponse {
-	var details []Details
+	var (
+		details       = []Details{}
+		totalOutputGr float64
+	)
 	for _, log := range pondFeeds.Data {
 		var isAppend = false
 		for _, row := range feedlogs {
@@ -44,8 +47,15 @@ func MapPondFeedersToPondFeedersResponse(Date string, pondFeeds *dto.PondFeederG
 		}
 	}
 
+	if len(feedlogs) > 0 {
+		totalOutputGr = feedlogs[0].TotalOutputGrCount
+	} else {
+		totalOutputGr = 0
+		details = nil
+	}
+
 	content := Content{
-		TotalOutputGr: feedlogs[0].TotalOutputGrCount,
+		TotalOutputGr: totalOutputGr,
 		Details:       details,
 	}
 
