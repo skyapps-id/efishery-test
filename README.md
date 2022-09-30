@@ -12,7 +12,7 @@
 ### Quick Installation
 1. Run service Messaging and Database
     ```sh
-    $ docker-compose -f docker-compose-dev.yml up -d
+    $ docker-compose -f docker-compose-dev.yaml up -d
     ```
 2. Login to container ```mysql-feeder-service-dev```
     ```sh
@@ -24,7 +24,7 @@
     ```
 4. Rerun service Messaging and Database
     ```sh
-    $ docker-compose -f docker-compose-dev.yml up -d
+    $ docker-compose -f docker-compose-dev.yaml up -d
     ```
 
 ### Manual Installation 
